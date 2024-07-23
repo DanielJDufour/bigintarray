@@ -1,0 +1,4 @@
+# bigintarray extension
+comment = 'bigintarray'
+default_version = '0.0.1'
+relocatable = true

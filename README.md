@@ -14,7 +14,7 @@ descriptions are copied from [intarray](https://www.postgresql.org/docs/current/
 | bigint[] + bigint[] → bigint[] | Concatenates the arrays. | X |
 | bigint[] - bigint[] → bigint[] | Removes elements of the right array from the left array. | X |
 | bigint[] \| bigint → bigint[] | Computes the union of the arguments. | X |
-| bigint[] \| bigint[] → bigint[] | Computes the union of the arguments. | X |
-| bigint[] & bigint[] → bigint[] | Computes the intersection of the arguments. | X |
+| bigint[] \| bigint[] → bigint[] | Computes the union of the arguments. | :heavy_check_mark: |
+| bigint[] & bigint[] → bigint[] | Computes the intersection of the arguments. | :heavy_check_mark: |
 | bigint[] @@ query_bigint → boolean | Does array satisfy query? (see below) | X |
 | query_bigint ~~ bigint[] → boolean | Does array satisfy query? (commutator of @@) | X |

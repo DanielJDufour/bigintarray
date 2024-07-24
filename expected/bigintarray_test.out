@@ -1,21 +1,73 @@
 CREATE EXTENSION bigintarray;
-
 SELECT # ARRAY[123456789, 123456789, 123456789]::bigint[] AS "Length";
+ Length 
+--------
+      3
+(1 row)
 
 SELECT ARRAY[1,4,3]::bigint[] @> ARRAY[3,1,3]::bigint[] AS "Left Contains Right";
+ Left Contains Right 
+---------------------
+ t
+(1 row)
 
 SELECT ARRAY[2,2,7]::bigint[] <@ ARRAY[1,7,4,2,6]::bigint[] AS "Right Contains Left";
+ Right Contains Left 
+---------------------
+ t
+(1 row)
 
 SELECT ARRAY[123, 456]::bigint[] & ARRAY[456, 789]::bigint[] AS "Intersection";
+ Intersection 
+--------------
+ {456}
+(1 row)
 
 SELECT ARRAY[123, 456]::bigint[] && ARRAY[456, 789]::bigint[] AS "Overlaps";
+ Overlaps 
+----------
+ t
+(1 row)
 
 SELECT ARRAY[123, 456]::bigint[] | ARRAY[456, 789]::bigint[] AS "Union";
+     Union     
+---------------
+ {789,456,123}
+(1 row)
+
 SELECT ARRAY[123, 456]::bigint[] | 456::bigint AS "Union with bigint[] | bigint";
+ Union with bigint[] | bigint 
+------------------------------
+ {456,123}
+(1 row)
 
 SELECT ARRAY[1,2,3]::bigint[] || ARRAY[1,2,3,4]::bigint[] AS "Concat with ||";
+ Concat with ||  
+-----------------
+ {1,2,3,1,2,3,4}
+(1 row)
+
 SELECT ARRAY[1,2,3]::bigint[] + ARRAY[1,2,3,4]::bigint[] AS "Concat with +";
+  Concat with +  
+-----------------
+ {1,2,3,1,2,3,4}
+(1 row)
+
 SELECT ARRAY[1,2,3]::bigint[] + 1::bigint AS "Concat bigint[] + bigint";
+ Concat bigint[] + bigint 
+--------------------------
+ {1,2,3,1}
+(1 row)
 
 SELECT ARRAY[1, 2, 3]::bigint[] - ARRAY[1, 2]::bigint[] AS "Subtraction";
+ Subtraction 
+-------------
+ {3}
+(1 row)
+
 SELECT ARRAY[1, 2, 3]::bigint[] - 1::bigint AS "Subtraction";
+ Subtraction 
+-------------
+ {2,3}
+(1 row)
+

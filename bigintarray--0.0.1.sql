@@ -24,26 +24,64 @@ CREATE OR REPLACE FUNCTION bigintarray_union(a bigint[], b bigint[]) RETURNS big
   IMMUTABLE
   RETURN ARRAY(SELECT UNNEST($1) UNION SELECT UNNEST($2));
 
+
+CREATE OR REPLACE FUNCTION bigintarray_union_one(a bigint[], b bigint) RETURNS bigint[]
+  LANGUAGE SQL
+  IMMUTABLE
+  RETURN bigintarray_union(a, Array[b]::bigint[]);
+
+CREATE OPERATOR | (
+  LEFTARG = bigint[],
+  RIGHTARG = bigint,
+  PROCEDURE = bigintarray_union_one
+);
+
 CREATE OPERATOR | (
   LEFTARG = bigint[],
   RIGHTARG = bigint[],
   PROCEDURE = bigintarray_union
 );
 
-CREATE OR REPLACE FUNCTION bigintarray_intersect_size(a bigint[], b bigint[]) RETURNS integer
+CREATE OR REPLACE FUNCTION bigintarray_except(a bigint[], b bigint[]) RETURNS bigint[]
   LANGUAGE SQL
   IMMUTABLE
-  RETURN # (a & b);
+  RETURN ARRAY(SELECT UNNEST($1) EXCEPT SELECT UNNEST($2));
 
-CREATE OR REPLACE FUNCTION bigintarray_intersect_boolean(a bigint[], b bigint[]) RETURNS boolean
-  LANGUAGE SQL
-  IMMUTABLE
-  RETURN bigintarray_intersect_size(a, b) >= 1;
-
-CREATE OPERATOR && (
+CREATE OPERATOR - (
   LEFTARG = bigint[],
   RIGHTARG = bigint[],
-  PROCEDURE = bigintarray_intersect_boolean
+  PROCEDURE = bigintarray_except
 );
 
+CREATE OR REPLACE FUNCTION bigintarray_except_one(a bigint[], b bigint) RETURNS bigint[]
+  LANGUAGE SQL
+  IMMUTABLE
+  RETURN bigintarray_except(a, Array[b]);
 
+CREATE OPERATOR - (
+  LEFTARG = bigint[],
+  RIGHTARG = bigint,
+  PROCEDURE = bigintarray_except_one
+);
+
+CREATE OR REPLACE FUNCTION bigintarray_concat_one(a bigint[], b bigint) RETURNS bigint[]
+  LANGUAGE SQL
+  IMMUTABLE
+  RETURN array_cat(a, Array[b]);
+
+CREATE OPERATOR + (
+  LEFTARG = bigint[],
+  RIGHTARG = bigint,
+  PROCEDURE = bigintarray_concat_one
+);
+
+CREATE OR REPLACE FUNCTION bigintarray_concat(a bigint[], b bigint[]) RETURNS bigint[]
+  LANGUAGE SQL
+  IMMUTABLE
+  RETURN array_cat(a, b);
+
+CREATE OPERATOR + (
+  LEFTARG = bigint[],
+  RIGHTARG = bigint[],
+  PROCEDURE = bigintarray_concat
+);

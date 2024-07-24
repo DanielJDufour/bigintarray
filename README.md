@@ -1,5 +1,5 @@
 # bigintarray
-Like [intarray](https://www.postgresql.org/docs/current/intarray.html) module for PostgreSQL, but for Big Integers
+Like [intarray](https://www.postgresql.org/docs/current/intarray.html) module for PostgreSQL, but for [Big Integers](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-TABLE)
 
 ## typical installation
 ```sh
